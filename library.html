@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LibSeat – Library Seat & Resource Booking</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar" id="topbar" hidden>
+  <div class="brand">📖 <span>LibSeat</span></div>
+  <nav id="nav"></nav>
+  <div class="right">
+    <div class="bell-wrap">
+      <button id="bellBtn" class="icon-btn" aria-label="Notifications">🔔<span id="bellCount" class="badge" hidden>0</span></button>
+      <div id="notifPanel" class="notif-panel" hidden></div>
+    </div>
+    <span id="userChip" class="chip"></span>
+    <button id="logoutBtn" class="btn ghost small">Logout</button>
+  </div>
+</header>
+
+<!-- LOGIN -->
+<main id="view-login" class="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">📖</div>
+    <h1>LibSeat</h1>
+    <p class="muted">Library Seat & Resource Booking System</p>
+    <div class="tabs" id="roleTabs">
+      <button class="tab active" data-role="student">Student</button>
+      <button class="tab" data-role="admin">Admin</button>
+    </div>
+    <form id="loginForm" novalidate>
+      <div id="studentFields">
+        <label>Full Name<input id="inName" placeholder="e.g. Rahul Sharma" autocomplete="off"></label>
+        <label>Registration Number<input id="inReg" placeholder="e.g. 12345678" inputmode="numeric" autocomplete="off"></label>
+      </div>
+      <div id="adminFields" hidden>
+        <label>Admin Password<input id="inPass" type="password" placeholder="admin123"></label>
+      </div>
+      <p id="loginErr" class="error" hidden></p>
+      <button class="btn primary block" type="submit">Login</button>
+    </form>
+  </div>
+</main>
+
+<!-- BOOK VIEW -->
+<main id="view-book" class="container" hidden>
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Book a Seat / Resource</h2>
+      <div class="legend">
+        <span><i class="dot free"></i>Available</span>
+        <span><i class="dot occ"></i>Booked</span>
+        <span><i class="dot sel"></i>Selected</span>
+        <span><i class="dot mine"></i>Your booking</span>
+      </div>
+    </div>
+
+    <div class="zone-tabs" id="zoneTabs"></div>
+
+    <div class="controls">
+      <label>Date<input type="date" id="dateInput"></label>
+      <label class="check"><input type="checkbox" id="powerOnly"> ⚡ Power-outlet seats only</label>
+    </div>
+
+    <div class="slots" id="slots"></div>
+
+    <div class="map-wrap">
+      <div class="screen">Entrance / Help Desk</div>
+      <div id="map" class="map"></div>
+    </div>
+  </section>
+
+  <aside class="panel summary">
+    <h3>Booking Summary</h3>
+    <dl id="summary"></dl>
+    <button id="confirmBtn" class="btn primary block" disabled>Confirm Booking</button>
+    <p class="muted small">Check in within the grace period after your slot starts, otherwise the seat is released automatically.</p>
+  </aside>
+</main>
+
+<!-- MY BOOKINGS -->
+<main id="view-my" class="container single" hidden>
+  <section class="panel">
+    <h2>Active & Upcoming</h2>
+    <div id="activeList" class="cards"></div>
+  </section>
+  <section class="panel">
+    <h2>Booking History</h2>
+    <div id="historyList" class="cards"></div>
+  </section>
+</main>
+
+<!-- ADMIN -->
+<main id="view-admin" class="container single" hidden>
+  <section class="stats" id="stats"></section>
+
+  <div class="two-col">
+    <section class="panel">
+      <h3>Occupancy by Zone (right now)</h3>
+      <div id="zoneBars"></div>
+    </section>
+    <section class="panel">
+      <h3>Settings & Tools</h3>
+      <label>Check-in grace period (minutes)
+        <input type="number" id="graceInput" min="1" max="60">
+      </label>
+      <div class="btn-row">
+        <button id="saveSettings" class="btn primary small">Save</button>
+        <button id="demoBtn" class="btn ghost small">Load demo data</button>
+        <button id="csvBtn" class="btn ghost small">Export CSV</button>
+        <button id="clearBtn" class="btn danger small">Clear all</button>
+      </div>
+      <p class="muted small">Tip: set grace to 1 minute and use “Book Now” to demonstrate auto-release in the viva.</p>
+    </section>
+  </div>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h3>All Bookings</h3>
+      <div class="filters">
+        <input id="adSearch" placeholder="Search name / reg no / seat">
+        <select id="adStatus">
+          <option value="">All status</option>
+          <option value="booked">Booked</option>
+          <option value="checkedin">Checked in</option>
+          <option value="completed">Completed</option>
+          <option value="released">Released</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+    </div>
+    <div class="table-wrap"><table id="adTable"></table></div>
+  </section>
+</main>
+
+<div id="toasts" class="toasts"></div>
+<script src="script.js"></script> 
+</body>
+</html>
